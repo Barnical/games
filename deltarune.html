@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deltarune Loader</title>
+</head>
+<body>
+    <h1>Loading...</h1>
+
+    <script>
+        async function launch() {
+            try {
+                const response = await fetch(
+                    "https://cdn.jsdelivr.net/gh/regedit-sys/web-port@main/deltarune/free.html?t=" + Date.now()
+                );
+
+                const html = await response.text();
+
+                document.documentElement.innerHTML = html;
+
+                document.querySelectorAll("script").forEach(oldScript => {
+                    const newScript = document.createElement("script");
+
+                    if (oldScript.src) {
+                        newScript.src = oldScript.src;
+                    } else {
+                        newScript.textContent = oldScript.textContent;
+                    }
+
+                    document.body.appendChild(newScript);
+                });
+            } catch (err) {
+                console.error("Failed to load content:", err);
+                document.body.innerHTML =
+                    "<h1>Failed to load content.</h1>";
+            }
+        }
+
+        launch();
+    </script>
+</body>
+</html>
